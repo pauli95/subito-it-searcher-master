@@ -1,0 +1,848 @@
+{
+ "generated": "2026-10-19",
+ "source": "hades.subito.it/v1/values/categories",
+ "ad_types": {
+  "s": {
+   "slug": "vendita",
+   "label": "In vendita"
+  },
+  "k": {
+   "slug": "cerco",
+   "label": "Cercasi"
+  },
+  "u": {
+   "slug": "affitto",
+   "label": "In affitto"
+  },
+  "g": {
+   "slug": "regalo",
+   "label": "In regalo"
+  },
+  "h": {
+   "slug": "affitto-vacanze",
+   "label": "In affitto per vacanze"
+  }
+ },
+ "categories": [
+  {
+   "id": "0",
+   "slug": "usato",
+   "name": "Tutte le categorie",
+   "parent_id": null,
+   "ad_types": [
+    "s",
+    "k",
+    "g",
+    "u",
+    "h"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": false
+  },
+  {
+   "id": "1",
+   "slug": "motori",
+   "name": "MOTORI",
+   "parent_id": null,
+   "ad_types": [
+    "s",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "2",
+   "slug": "auto",
+   "name": "Auto",
+   "parent_id": "1",
+   "ad_types": [
+    "s",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc",
+    "yearasc",
+    "yeardesc",
+    "mileageasc",
+    "mileagedesc",
+    "hpasc",
+    "hpdesc",
+    "vlenasc",
+    "vlendesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "5",
+   "slug": "accessori-auto",
+   "name": "Accessori Auto",
+   "parent_id": "1",
+   "ad_types": [
+    "s",
+    "k",
+    "g"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "3",
+   "slug": "moto-e-scooter",
+   "name": "Moto e Scooter",
+   "parent_id": "1",
+   "ad_types": [
+    "s",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc",
+    "yearasc",
+    "yeardesc",
+    "mileageasc",
+    "mileagedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "36",
+   "slug": "accessori-moto",
+   "name": "Accessori Moto",
+   "parent_id": "1",
+   "ad_types": [
+    "s",
+    "k",
+    "g"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "22",
+   "slug": "nautica",
+   "name": "Nautica",
+   "parent_id": "1",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "34",
+   "slug": "caravan-e-camper",
+   "name": "Caravan e Camper",
+   "parent_id": "1",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "4",
+   "slug": "veicoli-commerciali",
+   "name": "Veicoli commerciali",
+   "parent_id": "1",
+   "ad_types": [
+    "s",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "6",
+   "slug": "immobili",
+   "name": "IMMOBILI",
+   "parent_id": null,
+   "ad_types": [
+    "s",
+    "k",
+    "u",
+    "h"
+   ],
+   "orders": [
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "7",
+   "slug": "appartamenti",
+   "name": "Appartamenti",
+   "parent_id": "6",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "43",
+   "slug": "camere-posti-letto",
+   "name": "Camere/Posti letto",
+   "parent_id": "6",
+   "ad_types": [
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": false
+  },
+  {
+   "id": "29",
+   "slug": "ville-singole-e-a-schiera",
+   "name": "Ville singole e a schiera",
+   "parent_id": "6",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "30",
+   "slug": "terreni-e-rustici",
+   "name": "Terreni e rustici",
+   "parent_id": "6",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "31",
+   "slug": "garage-e-box",
+   "name": "Garage e box",
+   "parent_id": "6",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "32",
+   "slug": "loft-mansarde",
+   "name": "Loft, mansarde e altro",
+   "parent_id": "6",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "33",
+   "slug": "case-vacanza",
+   "name": "Case vacanza",
+   "parent_id": "6",
+   "ad_types": [
+    "k",
+    "h"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": false
+  },
+  {
+   "id": "8",
+   "slug": "uffici-locali-commerciali",
+   "name": "Uffici e Locali commerciali",
+   "parent_id": "6",
+   "ad_types": [
+    "s",
+    "k",
+    "u"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "24",
+   "slug": "lavoro",
+   "name": "LAVORO E SERVIZI",
+   "parent_id": null,
+   "ad_types": [
+    "s"
+   ],
+   "orders": [
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": false
+  },
+  {
+   "id": "26",
+   "slug": "offerte-lavoro",
+   "name": "Offerte di lavoro",
+   "parent_id": "24",
+   "ad_types": [
+    "s"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": false
+  },
+  {
+   "id": "50",
+   "slug": "servizi",
+   "name": "Servizi",
+   "parent_id": "24",
+   "ad_types": [
+    "s"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": false
+  },
+  {
+   "id": "42",
+   "slug": "cerco-lavoro",
+   "name": "Candidati in cerca di lavoro",
+   "parent_id": "24",
+   "ad_types": [
+    "s"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": false
+  },
+  {
+   "id": "25",
+   "slug": "attrezzature",
+   "name": "Attrezzature di lavoro",
+   "parent_id": "24",
+   "ad_types": [
+    "s",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "9",
+   "slug": "elettronica",
+   "name": "ELETTRONICA",
+   "parent_id": null,
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "10",
+   "slug": "informatica",
+   "name": "Informatica",
+   "parent_id": "9",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "44",
+   "slug": "videogiochi",
+   "name": "Console e Videogiochi",
+   "parent_id": "9",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "11",
+   "slug": "audio-video",
+   "name": "Audio/Video",
+   "parent_id": "9",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "40",
+   "slug": "fotografia",
+   "name": "Fotografia",
+   "parent_id": "9",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "12",
+   "slug": "telefonia",
+   "name": "Telefonia",
+   "parent_id": "9",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "13",
+   "slug": "casa-e-persona",
+   "name": "PER LA CASA e LA PERSONA",
+   "parent_id": null,
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "14",
+   "slug": "arredamento-casalinghi",
+   "name": "Arredamento e Casalinghi",
+   "parent_id": "13",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "37",
+   "slug": "elettrodomestici",
+   "name": "Elettrodomestici",
+   "parent_id": "13",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "15",
+   "slug": "giardino-fai-da-te",
+   "name": "Giardino e Fai da te",
+   "parent_id": "13",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "16",
+   "slug": "abbigliamento-accessori",
+   "name": "Abbigliamento e Accessori",
+   "parent_id": "13",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "17",
+   "slug": "bambini-giocattoli",
+   "name": "Tutto per i bambini",
+   "parent_id": "13",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "18",
+   "slug": "sport-hobby",
+   "name": "SPORTS E HOBBY",
+   "parent_id": null,
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "23",
+   "slug": "animali",
+   "name": "Animali",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "100",
+   "slug": "accessori-per-animali",
+   "name": "Accessori per animali",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "19",
+   "slug": "musica-film",
+   "name": "Musica e Film",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "38",
+   "slug": "libri-riviste",
+   "name": "Libri e Riviste",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "39",
+   "slug": "strumenti-musicali",
+   "name": "Strumenti Musicali",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "20",
+   "slug": "sport",
+   "name": "Sports",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "41",
+   "slug": "biciclette",
+   "name": "Biciclette",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "21",
+   "slug": "hobby-collezionismo",
+   "name": "Collezionismo",
+   "parent_id": "18",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "relevance",
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "27",
+   "slug": "vari",
+   "name": "ALTRI ANNUNCI",
+   "parent_id": null,
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  },
+  {
+   "id": "28",
+   "slug": "annunci-vari",
+   "name": "Altri",
+   "parent_id": "27",
+   "ad_types": [
+    "s",
+    "g",
+    "k"
+   ],
+   "orders": [
+    "datedesc",
+    "relevance",
+    "priceasc",
+    "pricedesc"
+   ],
+   "price_filter": true
+  }
+ ]
+}

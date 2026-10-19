@@ -1,0 +1,166 @@
+/* =============================================================================
+   Tema di Subito Searcher — TUTTI i colori dell'interfaccia sono definiti qui.
+   Scuro di base; chiaro con [data-theme="light"] oppure dalla preferenza del sistema.
+   I colori del grafico (--chart-*) sono validati (luminosità, croma, contrasto
+   rispetto alla superficie) separatamente per i due temi.
+   ============================================================================= */
+
+:root {
+  color-scheme: dark;
+
+  /* superfici */
+  --bg:            #07090b;
+  --bg-elev:       #0b0f13;
+  --panel:         #11161b;
+  --panel-2:       #151b21;
+  --panel-head:    #0d1216;
+  --line:          #1e2730;
+  --line-strong:   #2b3742;
+  --overlay:       rgba(2, 4, 6, .72);
+
+  /* testo */
+  --text:          #d8e3ea;
+  --text-2:        #a3b3bf;
+  --muted:         #6f808c;
+  --inverse:       #04130c;          /* testo su accento */
+
+  /* accento: verde terminale */
+  --accent:        #00ff9c;
+  --accent-hover:  #4dffb9;
+  --accent-text:   #3dffad;          /* accento usato come testo */
+  --accent-soft:   rgba(0, 255, 156, .09);
+  --accent-line:   rgba(0, 255, 156, .35);
+  --accent-glow:   0 0 0 1px rgba(0, 255, 156, .35), 0 0 18px rgba(0, 255, 156, .14);
+
+  /* secondari */
+  --cyan:          #46d4ff;
+  --cyan-soft:     rgba(70, 212, 255, .10);
+  --amber:         #ffb648;
+  --amber-soft:    rgba(255, 182, 72, .11);
+  --red:           #ff6470;
+  --red-soft:      rgba(255, 100, 112, .11);
+  --violet:        #b99cff;
+  --violet-soft:   rgba(185, 156, 255, .11);
+  --blue:          #6aa8ff;
+  --blue-soft:     rgba(106, 168, 255, .12);
+  --pink:          #ff7ac6;
+  --pink-soft:     rgba(255, 122, 198, .11);
+
+  /* LED di stato */
+  --led-ok:        #00ff9c;
+  --led-warn:      #ffb648;
+  --led-err:       #ff6470;
+  --led-off:       #3d4a55;
+
+  /* grafico */
+  --chart-1:       #00a86f;
+  --chart-1-hover: #13c483;
+  --chart-grid:    #1e2730;
+  --chart-axis:    #6f808c;
+
+  /* elementi */
+  --focus:         0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  --shadow:        0 10px 40px rgba(0, 0, 0, .45);
+  --scrollbar:     #26313b;
+  --selection:     rgba(0, 255, 156, .22);
+
+  /* tipografia e misure */
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  --radius:    8px;
+  --radius-sm: 5px;
+  --sidebar:   236px;
+}
+
+/* tema chiaro: scelto esplicitamente oppure preferenza del sistema */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg:            #eef2f4;
+  --bg-elev:       #e6ebee;
+  --panel:         #ffffff;
+  --panel-2:       #f6f8f9;
+  --panel-head:    #f2f5f7;
+  --line:          #d9e0e5;
+  --line-strong:   #c3ccd3;
+  --overlay:       rgba(20, 28, 34, .45);
+  --text:          #121a20;
+  --text-2:        #3c4953;
+  --muted:         #63717b;
+  --inverse:       #ffffff;
+  --accent:        #00875a;
+  --accent-hover:  #006e49;
+  --accent-text:   #00764f;
+  --accent-soft:   rgba(0, 135, 90, .09);
+  --accent-line:   rgba(0, 135, 90, .40);
+  --accent-glow:   0 0 0 1px rgba(0, 135, 90, .35), 0 0 14px rgba(0, 135, 90, .10);
+  --cyan:          #00719e;
+  --cyan-soft:     rgba(0, 113, 158, .09);
+  --amber:         #9a5a00;
+  --amber-soft:    rgba(196, 120, 0, .12);
+  --red:           #c42434;
+  --red-soft:      rgba(196, 36, 52, .09);
+  --violet:        #6a45c9;
+  --violet-soft:   rgba(106, 69, 201, .09);
+  --blue:          #1f5fbf;
+  --blue-soft:     rgba(31, 95, 191, .09);
+  --pink:          #b8327f;
+  --pink-soft:     rgba(184, 50, 127, .09);
+  --led-ok:        #00a86f;
+  --led-warn:      #d98a00;
+  --led-err:       #d63343;
+  --led-off:       #aab5bd;
+  --chart-1:       #00875a;
+  --chart-1-hover: #006e49;
+  --chart-grid:    #e1e7eb;
+  --chart-axis:    #63717b;
+  --shadow:        0 10px 30px rgba(18, 26, 32, .14);
+  --scrollbar:     #c3ccd3;
+  --selection:     rgba(0, 135, 90, .18);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg:            #eef2f4;
+    --bg-elev:       #e6ebee;
+    --panel:         #ffffff;
+    --panel-2:       #f6f8f9;
+    --panel-head:    #f2f5f7;
+    --line:          #d9e0e5;
+    --line-strong:   #c3ccd3;
+    --overlay:       rgba(20, 28, 34, .45);
+    --text:          #121a20;
+    --text-2:        #3c4953;
+    --muted:         #63717b;
+    --inverse:       #ffffff;
+    --accent:        #00875a;
+    --accent-hover:  #006e49;
+    --accent-text:   #00764f;
+    --accent-soft:   rgba(0, 135, 90, .09);
+    --accent-line:   rgba(0, 135, 90, .40);
+    --accent-glow:   0 0 0 1px rgba(0, 135, 90, .35), 0 0 14px rgba(0, 135, 90, .10);
+    --cyan:          #00719e;
+    --cyan-soft:     rgba(0, 113, 158, .09);
+    --amber:         #9a5a00;
+    --amber-soft:    rgba(196, 120, 0, .12);
+    --red:           #c42434;
+    --red-soft:      rgba(196, 36, 52, .09);
+    --violet:        #6a45c9;
+    --violet-soft:   rgba(106, 69, 201, .09);
+    --blue:          #1f5fbf;
+    --blue-soft:     rgba(31, 95, 191, .09);
+    --pink:          #b8327f;
+    --pink-soft:     rgba(184, 50, 127, .09);
+    --led-ok:        #00a86f;
+    --led-warn:      #d98a00;
+    --led-err:       #d63343;
+    --led-off:       #aab5bd;
+    --chart-1:       #00875a;
+    --chart-1-hover: #006e49;
+    --chart-grid:    #e1e7eb;
+    --chart-axis:    #63717b;
+    --shadow:        0 10px 30px rgba(18, 26, 32, .14);
+    --scrollbar:     #c3ccd3;
+    --selection:     rgba(0, 135, 90, .18);
+  }
+}

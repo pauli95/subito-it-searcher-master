@@ -1,0 +1,22 @@
+# Dati personali e credenziali (non versionare)
+telegram-send.conf
+searches.tracked
+telegram_api_credentials
+ntfy_config
+settings.json
+app_state.json
+
+# Database, backup e log della nuova versione
+data/
+
+# Log e file temporanei
+*.log
+*.log.*
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+venv/

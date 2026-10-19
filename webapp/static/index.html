@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subito Searcher</title>
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2307090b'/><text x='7' y='23' font-family='monospace' font-size='18' font-weight='700' fill='%2300ff9c'>&gt;_</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/static/css/theme.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <script>
+    // tema salvato applicato prima del rendering (niente lampeggio)
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <a href="#view" class="sr-only">Vai al contenuto</a>
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Navigazione">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">&gt;_</div>
+        <div class="brand-name">subito-searcher<small id="version">monitor annunci</small></div>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="#/dashboard" data-route="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
+        <a href="#/ricerche" data-route="ricerche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Ricerche</a>
+        <a href="#/annunci" data-route="annunci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Annunci<span class="count hidden" id="nav-new"></span></a>
+        <a href="#/monitor" data-route="monitor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Monitor</a>
+        <a href="#/notifiche" data-route="notifiche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Notifiche</a>
+        <a href="#/log" data-route="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 17 6-6-6-6M12 19h8"/></svg>Log<span class="count err hidden" id="nav-err"></span></a>
+        <a href="#/impostazioni" data-route="impostazioni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Impostazioni</a>
+      </nav>
+      <div class="sidebar-foot" aria-live="polite">
+        <div class="status-row" title="Stato del monitor"><span class="led" id="led-monitor"></span><span>monitor</span><span id="led-monitor-text">—</span></div>
+        <div class="status-row" title="Salute delle ricerche su subito.it"><span class="led" id="led-health"></span><span>subito.it</span><span id="led-health-text">—</span></div>
+        <div class="status-row" title="Connessione in tempo reale con il server"><span class="led" id="led-live"></span><span>live</span><span id="led-live-text">—</span></div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="btn icon ghost menu-btn" id="menu-btn" aria-label="Apri il menu" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <h1 class="prompt"><span class="gt">&gt;</span><span class="path" id="prompt-path">dashboard</span><span class="cursor" aria-hidden="true"></span></h1>
+        <a class="activity" id="activity" href="#/monitor" title="Stato del monitor"><span id="activity-icon" aria-hidden="true"></span><span id="activity-text">…</span></a>
+        <span class="sr-only" id="activity-live" role="status" aria-live="polite"></span>
+        <div class="topbar-actions">
+          <button class="btn sm" id="palette-btn" title="Barra comandi"><span class="hide-mobile">comandi</span> <kbd>Ctrl</kbd><kbd>K</kbd></button>
+          <button class="btn icon ghost" id="theme-btn" aria-label="Cambia tema" title="Tema chiaro/scuro">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </header>
+      <main class="content" id="view" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="palette-root"></div>
+
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>
