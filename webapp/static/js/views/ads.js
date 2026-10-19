@@ -170,7 +170,10 @@ export default async function ads(root, params) {
 
       statsBody.append(prices, counts, publications);
       disposeChart = barChart(chartBox, pub.per_day, { label: "pubblicati", height: 140 });
-    } catch { /* le statistiche sono accessorie: l'elenco funziona comunque */ }
+    } catch (e) {
+      if (my !== seq) return;
+      clear(statsBody).append(empty("Statistiche non disponibili", e.message));
+    }
   }
 
   // ---------------------------------------------------------------- elenco

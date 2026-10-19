@@ -91,12 +91,14 @@ h1, h2, h3 { font-family: var(--font-mono); font-weight: 600; margin: 0; letter-
   .content.fit .panel.scroll { display: flex; flex-direction: column; min-height: 0; }
   .content.fit .panel.scroll > .panel-body { flex: 1; min-height: 0; overflow: auto; }
 
-  /* annunci: filtri, statistiche e paginazione fermi, scorre solo l'elenco */
-  .content.fit > .ads-panel { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-  .ads-panel > .panel-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-  .ads-panel > .panel-body > :not(.ads) { flex: none; }
-  .ads-panel .ads { flex: 1; min-height: 0; overflow: auto; }
-  .ads-panel .pager { border-top: 1px solid var(--line); }
+  /* annunci: la lista e le statistiche riempiono lo schermo; scorre ogni pannello al suo interno */
+  .content.fit > .ads-layout { flex: 1; min-height: 0; grid-template-rows: minmax(0, 1fr); align-items: stretch; }
+  .content.fit .ads-layout > .ads-panel,
+  .content.fit .ads-layout > .stats-panel { min-height: 0; display: flex; flex-direction: column; }
+  .content.fit .ads-layout > .ads-panel > .panel-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .content.fit .ads-panel > .panel-body > :not(.ads) { flex: none; }
+  .content.fit .ads-panel .ads { flex: 1; min-height: 0; overflow: auto; }
+  .content.fit .ads-layout > .stats-panel > .panel-body { flex: 1; min-height: 0; overflow: auto; }
 }
 
 /* ------------------------------------------------------------------ LED */
@@ -292,6 +294,55 @@ table.table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .error-line { color: var(--red); font-size: 12px; margin-top: 3px; }
 
 /* ------------------------------------------------------------------ annunci */
+/* Annunci: lista principale e statistiche laterali */
+.ads-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 16px;
+  align-items: start; min-width: 0; width: 100%;
+}
+.ads-panel, .stats-panel { min-width: 0; }
+.stats-panel > .panel-body { padding: 14px; }
+.stats-body { display: flex; flex-direction: column; gap: 15px; }
+.stats-body > .empty { padding: 18px 6px; }
+.st-block { min-width: 0; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.st-block:last-child { padding-bottom: 0; border-bottom: 0; }
+.st-block h3 {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 10px;
+  color: var(--text-2); font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+}
+.st-block h3 .muted { font: 10px var(--font-mono); letter-spacing: 0; text-transform: none; }
+.price-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.pt {
+  min-width: 0; padding: 8px 9px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--panel-2);
+}
+.pt .label { color: var(--muted); font: 10px var(--font-mono); letter-spacing: .05em; text-transform: uppercase; }
+.pt .value { margin-top: 2px; color: var(--text); font: 600 14px var(--font-mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.pt.t-avg .value { color: var(--accent-text); }
+.range { margin-top: 14px; }
+.range-track { position: relative; height: 8px; margin: 0 2px 6px; border-radius: 99px; background: var(--line); }
+.range-box { position: absolute; top: 0; bottom: 0; border-radius: inherit; background: var(--accent-soft); }
+.range-median, .range-mean { position: absolute; z-index: 1; top: -4px; width: 2px; height: 16px; transform: translateX(-50%); }
+.range-median { background: var(--cyan); }
+.range-mean { background: var(--violet); }
+.range-labels { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font: 10px var(--font-mono); }
+.range-text { margin: 8px 0; color: var(--muted); font-size: 11.5px; }
+.range-text strong { color: var(--text-2); }
+.range-legend { display: flex; flex-wrap: wrap; gap: 5px 11px; color: var(--muted); font-size: 10px; }
+.range-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.range-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; }
+.range-legend .lg-box { background: var(--accent-soft); border: 1px solid var(--accent-line); }
+.range-legend .lg-median { width: 2px; border-radius: 0; background: var(--cyan); }
+.range-legend .lg-mean { width: 2px; border-radius: 0; background: var(--violet); }
+.st-kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 10px; margin: 0; }
+.st-kv dt { color: var(--muted); font: 11px var(--font-mono); }
+.st-kv dd { margin: 0; color: var(--text-2); font: 11px var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; }
+.rate { margin: 2px 0 10px; padding: 11px; border: 1px solid var(--accent-line); border-radius: var(--radius-sm); background: var(--accent-soft); }
+.rate-value { color: var(--accent-text); font: 700 23px/1.25 var(--font-mono); font-variant-numeric: tabular-nums; }
+.rate-value span { margin-left: 4px; color: var(--text-2); font: 500 11px var(--font-sans); }
+.rate .muted { margin-top: 3px; }
+.st-chart-title { margin: 12px 0 3px; }
+.st-chart .chart svg { height: 140px; }
+.stats-panel .panel-head .actions > span { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ads { display: flex; flex-direction: column; }
 .ad {
   display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 14px; align-items: center;
@@ -520,9 +571,17 @@ dialog.wide { width: min(820px, calc(100vw - 32px)); }
 .palette-list li[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-text); }
 .palette-foot { display: flex; gap: 14px; padding: 8px 16px; border-top: 1px solid var(--line); font: 11px var(--font-mono); color: var(--muted); }
 
+@media (min-width: 901px) and (max-width: 1100px) {
+  .ads-layout { grid-template-columns: minmax(0, 1fr) 270px; gap: 12px; }
+  .ads-panel .ad { grid-template-columns: 52px minmax(0, 1fr) auto; gap: 9px; padding: 9px 11px; }
+  .ads-panel .thumb { width: 52px; height: 52px; }
+  .ads-panel .price { font-size: 14px; }
+}
 /* ------------------------------------------------------------------ responsive */
 @media (max-width: 900px) {
   .app { grid-template-columns: minmax(0, 1fr); }
+  .ads-layout { grid-template-columns: minmax(0, 1fr); }
+  .stats-panel { order: -1; }
   .sidebar {
     position: fixed; z-index: 60; left: 0; top: 0; width: min(280px, 84vw); transform: translateX(-105%);
     transition: transform .2s ease; box-shadow: var(--shadow);
