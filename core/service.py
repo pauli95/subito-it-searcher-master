@@ -11,6 +11,7 @@ from typing import Any
 from .filters import parse_words
 from .models import Search, now_iso
 from .repo import Conflict, Repository
+from .scraper import MAX_RESULTS
 from .timeutil import format_hour
 from .urlbuilder import SearchParams, UrlBuilder, UrlError
 
@@ -200,7 +201,7 @@ class SearchService:
         return {"created": created, "errors": errors}
 
     # ------------------------------------------------------------------ anteprima
-    def preview(self, data: dict[str, Any], limit: int = 30) -> dict[str, Any]:
+    def preview(self, data: dict[str, Any], limit: int = MAX_RESULTS) -> dict[str, Any]:
         """Esegue la query senza salvarla. Gli errori di rete diventano ScrapeError (gestiti dall'API)."""
         q = self.resolve_query(data)
         probe = Search(id=None, name="anteprima", url=q["url"], min_price=q["min_price"],

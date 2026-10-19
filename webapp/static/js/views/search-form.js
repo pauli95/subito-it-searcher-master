@@ -287,26 +287,26 @@ export default async function searchForm(root, { id }) {
       : { mode: "params", params: readParams(), exclude_words: exclude.value };
     try {
       const r = await api.post("/api/preview", body);
-      const rows = r.items.slice(0, 15).map(a => h("div", { class: "ad" },
+      const rows = r.items.slice(0, 100).map(a => h("div", { class: "ad" },
         a.image ? h("img", { class: "thumb", src: thumbUrl(a.image), alt: "", loading: "lazy", referrerpolicy: "no-referrer" }) : h("div", { class: "thumb" }, "—"),
         h("div", {}, h("a", { class: "ad-title", href: a.link, target: "_blank", rel: "noopener noreferrer" }, a.title),
           h("div", { class: "ad-meta" }, h("span", {}, a.location), a.shipping ? h("span", {}, "spedizione") : null)),
         h("div", { class: "ad-side" }, h("div", { class: "price" }, fmtPrice(a.price)))));
       const dlg = dialog("anteprima", h("div", { class: "stack" },
         h("div", { class: "stats" },
-          h("div", { class: "stat" }, h("div", { class: "label" }, "letti"), h("div", { class: "value" }, r.found), h("div", { class: "hint" }, "prima pagina del sito")),
+          h("div", { class: "stat" }, h("div", { class: "label" }, "letti"), h("div", { class: "value" }, r.found), h("div", { class: "hint" }, "massimo 100 per ricerca")),
           h("div", { class: "stat" }, h("div", { class: "label" }, "validi"), h("div", { class: "value" }, r.matched), h("div", { class: "hint" }, `${r.excluded} esclusi dai filtri`)),
           h("div", { class: "stat" }, h("div", { class: "label" }, "prezzi"), h("div", { class: "value", style: { fontSize: "18px" } },
             r.price_min !== null ? `${fmtPrice(r.price_min)} – ${fmtPrice(r.price_max)}` : "—"))),
         r.found === 0 ? h("div", { class: "alert" }, "Nessun annuncio: prova ad allargare località o parole chiave.") : null,
-        h("div", { class: "panel" }, h("div", { class: "ads" }, rows))), [btn("Chiudi", { onclick: () => dlg.close() })], { wide: true });
+        h("div", { class: "panel" }, h("div", { class: "ads preview-ads" }, rows))), [btn("Chiudi", { onclick: () => dlg.close() })], { wide: true });
     } catch (e) { toast(e.message, "error", 7000); }
   });
 
   // ---------------------------------------------------------------- layout
   const span = (n, el) => { el.classList.add(`span-${n}`); return el; };
   const paramsFields = h("div", { class: "form-grid" },
-    span(8, field("Parole chiave", keywords, "Lascia vuoto per tutti gli annunci della categoria e località")),
+    span(8, field("Parole chiave", keywords, "Nell'app le parole separate da spazi sono alternative (OR): ne basta una.")),
     span(4, h("div", { class: "field", style: { justifyContent: "flex-end" } },
       h("label", { class: "check" }, titleOnly, "Cerca solo nel titolo"))),
     span(6, field("Località", locationBox, "Regione, provincia o comune; vuoto = tutta Italia")),

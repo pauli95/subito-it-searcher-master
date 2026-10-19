@@ -14,7 +14,7 @@ from .filters import excluded_by, price_in_range
 from .models import RunResult, ScrapedAd, Search
 from .notifier import Notifier
 from .repo import Repository
-from .scraper import ScrapeError, fetch_ads
+from .scraper import MAX_RESULTS, ScrapeError, fetch_ads, fetch_ads_limited
 
 FetchFn = Callable[[str, requests.Session], list[ScrapedAd]]
 
@@ -54,11 +54,14 @@ class Engine:
         return [a for a in ads if a.sold or (price_in_range(a.price, search.min_price, search.max_price)
                                              and excluded_by(a.title, search.exclude_words) is None)]
 
+    def _fetch_search(self, url: str) -> list[ScrapedAd]:
+        return fetch_ads_limited(url, self._session, limit=MAX_RESULTS,
+                                  before_request=self._throttle, page_fetch=self._fetch)
+
     def preview(self, url: str, search: Search | None = None) -> tuple[list[ScrapedAd], list[ScrapedAd]]:
         """Esegue la query senza salvare nulla: (annunci letti, annunci che passano i filtri)."""
         with self._run_lock:
-            self._throttle()
-            ads = self._fetch(url, self._session)
+            ads = self._fetch_search(url)
         matched = self.apply_filters(search, ads) if search else ads
         return ads, [a for a in matched if not a.sold]
 
@@ -67,10 +70,9 @@ class Engine:
         # phase start/end: l'interfaccia mostra "controllo in corso" tra i due eventi
         self.events.info(f"Eseguo la ricerca '{search.name}'", kind="query", search_id=search.id,
                          phase="start", name=search.name)
-        self._throttle()
-        started = time.monotonic()  # durata = solo la risposta del sito, senza la pausa di cortesia
+        started = time.monotonic()
         try:
-            ads = self._fetch(search.url, self._session)
+            ads = self._fetch_search(search.url)
         except ScrapeError as e:
             return self._fail(search, str(e), e.kind, time.monotonic() - started)
         except Exception as e:  # imprevisto: segnalato senza interrompere le altre ricerche

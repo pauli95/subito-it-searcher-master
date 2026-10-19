@@ -17,11 +17,16 @@ from __future__ import annotations
 import json
 import re
 from typing import Any
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import requests
 from bs4 import BeautifulSoup
 
+from .filters import normalize
 from .models import ScrapedAd
+
+MAX_RESULTS = 100
+_PAGE_SIZE_HINT = 30
 
 # Header di un browser reale. Lo script originale li aveva tra virgolette doppie
 # ('"text/html..."'): corretti; verificato che subito.it risponde 200 anche così.
@@ -165,10 +170,10 @@ def parse_ad(product: Any) -> ScrapedAd | None:
     )
 
 
-def parse_page(html: str) -> list[ScrapedAd]:
+def _parse_products(products: list[Any]) -> list[ScrapedAd]:
     ads: list[ScrapedAd] = []
     seen: set[str] = set()
-    for product in extract_items(extract_next_data(html)):
+    for product in products:
         ad = parse_ad(product)
         if ad and ad.ad_key not in seen:
             seen.add(ad.ad_key)
@@ -176,5 +181,132 @@ def parse_page(html: str) -> list[ScrapedAd]:
     return ads
 
 
+def parse_page(html: str) -> list[ScrapedAd]:
+    return _parse_products(extract_items(extract_next_data(html)))
+
+
+def _fetch_page_with_meta(url: str, session: requests.Session | None) -> tuple[list[ScrapedAd], int | None]:
+    data = extract_next_data(fetch_html(url, session))
+    products = extract_items(data)
+    ads = _parse_products(products)
+    try:
+        items = data["props"]["pageProps"]["initialState"]["items"]
+        total_pages = int(items.get("totalPages"))
+        if total_pages < 1:
+            total_pages = None
+    except (KeyError, TypeError, ValueError):
+        total_pages = None
+    return ads, total_pages
+
+
+def _query_terms(url: str) -> list[str | None]:
+    query = parse_qsl(urlsplit(url).query, keep_blank_values=True)
+    values = [value for key, value in query if key.lower() == "q"]
+    if not values:
+        return [None]
+    terms: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        for term in value.split():
+            key = normalize(term)
+            if key and key not in seen:
+                seen.add(key)
+                terms.append(term)
+    return terms or [None]
+
+
+def _page_url(url: str, term: str | None, page: int, terms: list[str | None]) -> str:
+    parts = urlsplit(url)
+    query = parse_qsl(parts.query, keep_blank_values=True)
+    raw_terms = [value for key, value in query if key.lower() == "q"]
+    has_page = any(key.lower() == "o" for key, _ in query)
+    if page == 1 and not has_page and len(terms) == 1:
+        if (term is None and not raw_terms) or raw_terms == [term]:
+            return url
+    kept = [(key, value) for key, value in query if key.lower() not in {"q", "o"}]
+    if term is not None:
+        kept.append(("q", term))
+    if page > 1:
+        kept.append(("o", str(page)))
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(kept), parts.fragment))
+
+
+def fetch_ads_limited(url: str, session: requests.Session | None = None, *, limit: int = MAX_RESULTS,
+                      before_request=None, page_fetch=None) -> list[ScrapedAd]:
+    """Unisce le parole chiave come OR, deduplica e legge al massimo `limit` annunci.
+
+    Subito assegna gli annunci a pagine tramite `o=2`, `o=3`, ecc. I risultati dei
+    diversi termini vengono alternati per non lasciare fuori un termine quando si
+    raggiunge il limite complessivo.
+    """
+    limit = max(1, min(int(limit), MAX_RESULTS))
+    terms = _query_terms(url)
+    use_site_parser = page_fetch is None or page_fetch is fetch_ads
+    custom_fetch = page_fetch or fetch_ads
+    by_term: dict[str | None, list[ScrapedAd]] = {term: [] for term in terms}
+    term_seen: dict[str | None, set[str]] = {term: set() for term in terms}
+    total_pages: dict[str | None, int] = {}
+    exhausted: set[str | None] = set()
+
+    def merged() -> list[ScrapedAd]:
+        result: list[ScrapedAd] = []
+        seen: set[str] = set()
+        longest = max((len(by_term[term]) for term in terms), default=0)
+        for index in range(longest):
+            for term in terms:
+                ads = by_term[term]
+                if index >= len(ads):
+                    continue
+                ad = ads[index]
+                key = ad.ad_key or ad.link
+                if key not in seen:
+                    seen.add(key)
+                    result.append(ad)
+                    if len(result) >= limit:
+                        return result
+        return result
+
+    for page in range(1, limit + 1):
+        made_progress = False
+        for term in terms:
+            if term in exhausted:
+                continue
+            if term in total_pages and page > total_pages[term]:
+                exhausted.add(term)
+                continue
+            if before_request:
+                before_request()
+            page_url = _page_url(url, term, page, terms)
+            if use_site_parser:
+                ads, page_count = _fetch_page_with_meta(page_url, session)
+                if page_count is not None:
+                    total_pages[term] = page_count
+            else:
+                ads = custom_fetch(page_url, session)
+                page_count = None
+
+            fresh: list[ScrapedAd] = []
+            for ad in ads:
+                key = ad.ad_key or ad.link
+                if key not in term_seen[term]:
+                    term_seen[term].add(key)
+                    fresh.append(ad)
+            if fresh:
+                by_term[term].extend(fresh)
+                made_progress = True
+            if not ads or not fresh:
+                exhausted.add(term)
+            elif page_count is not None and page >= page_count:
+                exhausted.add(term)
+            elif page_count is None and len(ads) < _PAGE_SIZE_HINT:
+                exhausted.add(term)
+
+        result = merged()
+        if len(result) >= limit or not made_progress or len(exhausted) == len(terms):
+            return result[:limit]
+    return merged()[:limit]
+
+
 def fetch_ads(url: str, session: requests.Session | None = None) -> list[ScrapedAd]:
+    """Scarica e analizza una sola pagina dei risultati."""
     return parse_page(fetch_html(url, session))
